@@ -1,0 +1,10 @@
+---
+- name: Disabling swarm
+  become: yes
+  command: docker swarm leave -f
+  ignore_errors: yes
+
+- name: initialize swarm cluster
+  become: yes
+  command: docker swarm init --advertise-addr={{ swarm_iface | default('eth0') }}:2377
+  register: bootstrap_first_node
